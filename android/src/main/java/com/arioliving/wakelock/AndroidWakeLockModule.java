@@ -15,6 +15,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.os.PowerManager;
+
 public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
 
     private PowerManager mPowerManager;
