@@ -27,6 +27,7 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
         super(reactContext);
 
         mPowerManager = (PowerManager)reactContext.getApplicationContext().getSystemService(Context.POWER_SERVICE);
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Acquired by ReactNative");
     }
 
     @Override
