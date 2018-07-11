@@ -37,10 +37,14 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
 
    @ReactMethod
    public void acquireWakeLock(boolean screenOn, Promise promise) {
-        if (mWakeLock.isHeld()) {
-            promise.reject("WakeLock already acquired");
-        }
-        else {
+        // if (mWakeLock.isHeld()) {
+        //     promise.reject("WakeLock already acquired");
+        // }
+        // else {
+            if (mWakeLock.isHeld()) {
+                mWakeLock.release();
+            }
+
             if (screenOn) {
                 mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "Acquired by ReactNative");
             }
@@ -49,18 +53,15 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
             }
             mWakeLock.acquire();
             promise.resolve(true);
-        }
+        // }
    }
 
     @ReactMethod
     public void releaseWakeLock(Promise promise) {
-            if (!mWakeLock.isHeld()) {
-                promise.reject("WakeLock is not held");
-            }
-            else {
+            if (mWakeLock.isHeld()) {
                 mWakeLock.release();
-                promise.resolve(true);
             }
+            promise.resolve(true);
     }
 
 
