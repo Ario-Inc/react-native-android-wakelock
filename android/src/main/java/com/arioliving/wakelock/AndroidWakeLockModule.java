@@ -104,7 +104,8 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
         }
     }
 
-    private boolean checkSystemWritePermission() {
+    @ReactMethod
+    public boolean checkSystemWritePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.System.canWrite(mContext))
                 return true;

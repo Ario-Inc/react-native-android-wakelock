@@ -7,3 +7,4 @@ export as namespace AndroidWakeLockModule;
 export function acquireWakeLock(screenOn: boolean): Promise<boolean>;
 export function releaseWakeLock(): Promise<boolean>;
 export function turnScreenOff(): Promise<boolean>;
+export function checkSystemWritePermission(): boolean;
