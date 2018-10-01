@@ -73,7 +73,7 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
   
     @ReactMethod
     public void turnScreenOff(Promise promise) {
-        if (checkSystemWritePermission()) {
+        if (checkSystemWritePermissionSync()) {
             Settings.System.putInt(mContentResolver, Settings.System.SCREEN_BRIGHTNESS, 1);
             if (mWakeLock.isHeld()) {
                 mWakeLock.release();
@@ -91,7 +91,7 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setScreenBrightness(Integer level) {
-        if (checkSystemWritePermission()) {
+        if (checkSystemWritePermissionSync()) {
             
             if (level > 255) {
                 level = 255;
@@ -105,7 +105,16 @@ public class AndroidWakeLockModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public boolean checkSystemWritePermission() {
+    public void checkSystemWritePermission(Promise promise) {
+        if (checkSystemWritePermissionSync()) {
+            promise.resolve(true);
+        }
+        else {
+            promise.resolve(false);
+        }
+    }
+
+    public boolean checkSystemWritePermissionSync() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.System.canWrite(mContext))
                 return true;
